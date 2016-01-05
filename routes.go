@@ -17,6 +17,12 @@ var mssql = Routes{
         "/api/mssql/v1/",
         mssqlIndex,
     },
+    Route{
+        "ListAllInstances",
+        "GET",
+        "/api/mssql/v1/ListAllInstances",
+        mssqlAllInstances,
+    },
 }
 
 var routes = append(mona, mssql...)

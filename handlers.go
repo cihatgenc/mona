@@ -10,18 +10,16 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintln(w, "Welcome!")
-}
-
-func TodoIndex(w http.ResponseWriter, r *http.Request) {
-    // todos := Todos{
-    //     Todo{Name: "Write presentation"},
-    //     Todo{Name: "Host meetup"},
-    // }
+    myversion := Versioning{
+        Name:    "Mona",
+        Version: versionNumber,
+    }
 
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     w.WriteHeader(http.StatusOK)
-    if err := json.NewEncoder(w).Encode(todos); err != nil {
+
+    if err := json.NewEncoder(w).Encode(myversion); err != nil {
         panic(err)
     }
 }
