@@ -18,3 +18,10 @@ type SqlConnection struct {
 }
 
 type SqlConnections []SqlConnection
+
+type ServiceStatus struct {
+	ServiceName string `json:"servicename"`
+	Status      string `json:"status"`
+}
+
+type ServicesStatus []ServiceStatus

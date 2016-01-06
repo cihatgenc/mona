@@ -12,7 +12,7 @@ import (
 )
 
 // compile passing -ldflags "-X main.versionNumber <build>"
-var versionNumber = "0.0.1"
+var versionNumber = ""
 
 func main() {
 	fmt.Printf("Mona Version: %s\n", versionNumber)
