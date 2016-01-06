@@ -27,6 +27,12 @@ var mssql = Routes{
         "ListAllConnections",
         "GET",
         "/api/mssql/v1/ListAllConnections",
+        mssqlAllConnections,
+    },
+    Route{
+        "ListAllActiveConnections",
+        "GET",
+        "/api/mssql/v1/ListAllActiveConnections",
         mssqlAllActiveConnections,
     },
 }
