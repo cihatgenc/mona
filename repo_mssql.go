@@ -3,12 +3,10 @@ package main
 import (
 	"fmt"
 	"golang.org/x/sys/windows/registry"
-	// "golang.org/x/sys/windows/svc"
 	"golang.org/x/sys/windows/svc/mgr"
 	"log"
 	"os"
     "unsafe"
-	//"syscall"
 )
 
 // ListAllInstances - Return all installed instances
@@ -33,14 +31,6 @@ func ListAllInstances() Kvs {
 	var instances Kvs
 
 	for _, name := range names {
-		//fmt.Printf("Registry Key Name: %s\n", name)
-
-		// s, err := GetKeyValues(k, name)
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
-
-		// var entry = Kv{name, s}
 		var entry = Kv{"instancename", name}
 		instances = append(instances, entry)
 	}

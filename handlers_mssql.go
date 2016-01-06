@@ -58,11 +58,11 @@ func mssqlAllActiveConnections(w http.ResponseWriter, r *http.Request) {
     myobject := ListAllActiveConnections()
     if myobject == nil {
         w.WriteHeader(http.StatusNoContent)
+    } else {
+        w.WriteHeader(http.StatusOK)
+
+        if err := json.NewEncoder(w).Encode(myobject); err != nil {
+            panic(err)
+        }
     }
-
-	w.WriteHeader(http.StatusOK)
-
-	if err := json.NewEncoder(w).Encode(myobject); err != nil {
-		panic(err)
-	}
 }
