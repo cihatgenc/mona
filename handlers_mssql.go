@@ -26,8 +26,20 @@ func mssqlIndex(w http.ResponseWriter, r *http.Request) {
 
 // Return all MSSQL instances
 func mssqlAllInstances(w http.ResponseWriter, r *http.Request) {
-	//fmt.Fprintln(w, "Welcome!")
 	myobject := ListAllInstances()
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.WriteHeader(http.StatusOK)
+
+	if err := json.NewEncoder(w).Encode(myobject); err != nil {
+		panic(err)
+	}
+}
+
+// Return all connection strings for active SQL Servers
+func mssqlAllActiveConnections(w http.ResponseWriter, r *http.Request) {
+	myobject := ListAllConnections()
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.Header().Set("Access-Control-Allow-Origin", "*")

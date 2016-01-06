@@ -11,3 +11,10 @@ type Kv struct {
 }
 
 type Kvs []Kv
+
+type SqlConnection struct {
+	ServerName string `json:"servername"`
+	Port       string `json:"port"`
+}
+
+type SqlConnections []SqlConnection
