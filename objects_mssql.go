@@ -25,3 +25,8 @@ type ServiceStatus struct {
 }
 
 type ServicesStatus []ServiceStatus
+
+type SensuMessage struct{
+    Status  string  `json:"status"`
+    Message string  `json:"message"`
+}

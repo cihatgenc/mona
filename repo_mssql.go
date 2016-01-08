@@ -63,7 +63,7 @@ func ListAllConnections() SqlConnections {
 	}
 
 	for _, name := range names {
-		s, err := GetKeyValues(k, name)
+		s, err := GetKeyStrValues(k, name)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -78,13 +78,13 @@ func ListAllConnections() SqlConnections {
 		defer regport.Close()
 		// Try to get the fixed port
 		var port string
-		port, err = GetKeyValues(regport, "TcpPort")
+		port, err = GetKeyStrValues(regport, "TcpPort")
 		if err != nil {
 			log.Fatal(err)
 		}
 		// If fix port is not set, get the dynamic port
 		if port == "" {
-			port, err = GetKeyValues(regport, "TcpDynamicPorts")
+			port, err = GetKeyStrValues(regport, "TcpDynamicPorts")
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -129,7 +129,7 @@ func ListAllActiveConnections() SqlConnections {
 	}
 
 	for _, name := range names {
-		s, err := GetKeyValues(k, name)
+		s, err := GetKeyStrValues(k, name)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -144,13 +144,13 @@ func ListAllActiveConnections() SqlConnections {
 		defer regport.Close()
 		// Try to get the fixed port
 		var port string
-		port, err = GetKeyValues(regport, "TcpPort")
+		port, err = GetKeyStrValues(regport, "TcpPort")
 		if err != nil {
 			log.Fatal(err)
 		}
 		// If fix port is not set, get the dynamic port
 		if port == "" {
-			port, err = GetKeyValues(regport, "TcpDynamicPorts")
+			port, err = GetKeyStrValues(regport, "TcpDynamicPorts")
 			if err != nil {
 				log.Fatal(err)
 			}

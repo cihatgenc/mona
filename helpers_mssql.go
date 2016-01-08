@@ -45,8 +45,8 @@ func GetKeyNames(key registry.Key, count int) ([]string, error) {
 	return n, nil
 }
 
-// GetKeyValues - Get the key names
-func GetKeyValues(key registry.Key, keyname string) (string, error) {
+// GetKeyStrValues - Get the key values in string
+func GetKeyStrValues(key registry.Key, keyname string) (string, error) {
 	fmt.Printf("Executing GetKeyValues\n")
 	n, _, err := key.GetStringValue(keyname)
 	if err != nil {
@@ -55,6 +55,18 @@ func GetKeyValues(key registry.Key, keyname string) (string, error) {
 	}
 
 	return n, nil
+}
+
+// GetKeyIntValues - Get the key values in integer
+func GetKeyIntValues(key registry.Key, keyname string) (int, error) {
+	fmt.Printf("Executing GetKeyValues\n")
+	n, _, err := key.GetIntegerValue(keyname)
+	if err != nil {
+		log.Fatal(err)
+		return 0, err
+	}
+
+	return int(n), nil
 }
 
 // GetServiceStatus - Return status of a service
@@ -105,5 +117,107 @@ func GetServiceStatus(name string) (string, error) {
 
 	fmt.Printf("State returned is: %v\n", status)
 	return status, nil
-	// func (s *Service) Query() (svc.Status, error)
+}
+
+// GetServiceStartType - Return startup mode for service
+func GetServiceStartType(name string) (string, error) {
+	fmt.Printf("Executing GetServiceStartType for: %s\n", name)
+	var starttype string
+
+	var keypath = fmt.Sprintf("SYSTEM\\CurrentControlSet\\services\\%s", name)
+
+	k, err := registry.OpenKey(registry.LOCAL_MACHINE, keypath, registry.QUERY_VALUE)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer k.Close()
+
+	//var s string
+	s, err := GetKeyIntValues(k, "Start")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%v", s)
+
+	switch s {
+	default:
+		starttype = "unknown"
+	case 2:
+		starttype = "automatic"
+	case 3:
+		starttype = "manual"
+	case 4:
+		starttype = "disabled"
+	}
+
+	return starttype, nil
+}
+
+// GetSQLServiceNames - Return all sql service names
+func GetSQLServiceNames() ([]string, []string, error) {
+	fmt.Printf("Executing GetSQLServiceNames")
+	var servicenames []string
+	var instancenames []string
+
+	k, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL`, registry.QUERY_VALUE)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer k.Close()
+
+	stat, err := GetKeyStats(k)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	names, err := GetKeyNames(k, int(stat.ValueCount))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	host, err := GetHostName()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, name := range names {
+		if name != "MSSQLSERVER" {
+			servicenames = append(servicenames, fmt.Sprintf("%s%s", "MSSQL$", name))
+		} else {
+			servicenames = append(servicenames, name)
+		}
+
+		if name == "MSSQLSERVER" {
+			instancenames = append(instancenames, host)
+		} else {
+			instancenames = append(instancenames, fmt.Sprintf("%s\\%s", host, name))
+		}
+	}
+
+	return servicenames, instancenames, nil
+}
+
+// GetSQLAgentNames - Return all sql agent names
+func GetSQLAgentNames() {
+	fmt.Printf("Executing GetSQLAgentNames")
+
+}
+
+// GetSQLRSNames - Return all sql agent names
+func GetSQLRSNames() {
+	fmt.Printf("Executing GetSQLRSNames")
+
+}
+
+// GetSQLASNames - Return all sql agent names
+func GetSQLASNames() {
+	fmt.Printf("Executing GetSQLASNames")
+
+}
+
+// GetSQLISNames - Return all sql agent names
+func GetSQLISNames() {
+	fmt.Printf("Executing GetSQLISNames")
+
 }

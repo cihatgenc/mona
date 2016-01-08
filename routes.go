@@ -35,6 +35,12 @@ var mssql = Routes{
         "/api/mssql/v1/ListAllActiveConnections",
         mssqlAllActiveConnections,
     },
+    Route{
+        "checksqlservices",
+        "GET",
+        "/api/mssql/v1/checksqlservices",
+        checkSQLServices,
+    },
 }
 
 var routes = append(mona, mssql...)
