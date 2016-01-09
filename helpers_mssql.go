@@ -156,13 +156,15 @@ func GetServiceStartType(name string) (string, error) {
 
 // GetSQLServiceNames - Return all sql service names
 func GetSQLServiceNames() ([]string, []string, error) {
-	fmt.Printf("Executing GetSQLServiceNames")
+	fmt.Printf("Executing GetSQLServiceNames\n")
 	var servicenames []string
 	var instancenames []string
 
 	k, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL`, registry.QUERY_VALUE)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("No installed SQL Service found\n")
+		//log.Warn(err)
+		return servicenames, instancenames, nil
 	}
 	defer k.Close()
 
